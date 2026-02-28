@@ -31,6 +31,12 @@ BASHRC="$HOME/.bashrc"
 CUSTOM_BASHRC="custom_bashrc"
 CUSTOM_BASHRC_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
 
+# Backup original if not present
+if [! -f "${BASHRC}.orig"]; then
+    echo "Making backup of $BASHRC..."
+    cp "$BASHRC" "${BASHRC}.orig"
+fi
+
 # Only append if not present
 if ! grep -q "$CUSTOM_BASHRC_MARKER" "$BASHRC"; then
     echo "Downloading custom .bashrc snippet..."
@@ -91,4 +97,4 @@ vim +PlugInstall +qall
 #--------------------------------
 echo -e ""
 echo -e "${GREEN}Bootstraping complete!${RESET}"
-echo -e "${GREEN}Run: ${CYAN}source ~/.bashrc{$GREEN} to apply prompt updates.${RESET}"
+echo -e "${GREEN}Run: ${CYAN}source ~/.bashrc ${GREEN}to apply prompt updates.${RESET}"
