@@ -5,7 +5,7 @@ set -e #exit on errors
 # ------------------------------------
 #  Create script variables
 # ------------------------------------
-REPO_RAW_BASE="https://raw.githubusercontent.com/khbtechservices/linux-bootstrap/main"
+REPO_BASE="https://raw.githubusercontent.com/khbtechservices/linux-bootstrap/main"
 CUSTOM_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -29,7 +29,7 @@ CUSTOM_BASHRC="$REPO_DIR/custom_bashrc"
 # Only append if not present
 if ! grep -q "$CUSTOM_MARKER" "$BASHRC"; then
     echo "Downloading custom .bashrc snippet..."
-    curl -fsSL "$REPO_RAW_BASE/$CUSTOM_BASHRC" -o "$TMP_DIR/$CUSTOM_BASHRC"
+    curl -fsSL "$REPO_BASE/$CUSTOM_BASHRC" -o "$TMP_DIR/$CUSTOM_BASHRC"
     echo "Writing custom .bashrc snippet to ${BASHRC}..."
     echo "" >> "$BASHRC"
     echo "$CUSTOM_MARKER" >> "$BASHRC"
@@ -67,7 +67,7 @@ fi
 
 if ! grep -q "$CUSTOM_MARKER" "$VIMRC"; then
     echo "Downloading custom .vimrc snippet..."
-    curl -fsSL "$REPO_RAW_BASE/$CUSTOM_VIMRC" -o "$TMP_DIR/$CUSTOM_VIMRC"
+    curl -fsSL "$REPO_BASE/$CUSTOM_VIMRC" -o "$TMP_DIR/$CUSTOM_VIMRC"
     echo "Writing custom .vimrc lines to ${VIMRC}..."
     echo "" >> "$VIMRC"
     echo "$CUSTOM_MARKER" >> "$VIMRC"
