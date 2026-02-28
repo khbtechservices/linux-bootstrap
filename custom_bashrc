@@ -29,3 +29,16 @@ PS1+="${FG_BLACK}${BG_WHITE} \u ${RESET}"
 PS1+="${FG_WHITE}${BG_BLUE} \W ${RESET}"
 PS1+='$(git_branch | sed "s/.*/'"${FG_BLACK}${BG_WHITE}"' & '"${RESET}"'/")'
 PS1+="${FG_BLACK}${BG_CYAN} \A ${RESET} "
+
+#--------------------------------
+# Aliases
+#--------------------------------
+alias hist="history -i"
+alias hosts="sudo vim /etc/hosts"
+alias mkdir="mkdir -p"
+alias ls="ls -G"
+alias py="python3"
+alias mkvpy="python3 -m venv venv && source venv/bin/activate"
+alias vpy="./venv/bin/python3"
+alias tail="tail -n 200"
+alias tinker="php artisan tinker"
