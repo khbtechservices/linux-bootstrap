@@ -7,7 +7,12 @@ set -e #exit on errors
 # ------------------------------------
 REPO_BASE="https://raw.githubusercontent.com/khbtechservices/linux-bootstrap/main"
 CUSTOM_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
-REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+RESET='\033[0m'
 
 # --------------------------------------
 # Set up temporary folder for downloads
@@ -35,10 +40,6 @@ if ! grep -q "$CUSTOM_MARKER" "$BASHRC"; then
     echo "$CUSTOM_MARKER" >> "$BASHRC"
     cat "$TMP_DIR/$CUSTOM_BASHRC" >> "$BASHRC"
     echo "" >> "$BASHRC"
-
-    # Source the file
-    source "$BASHRC"
-    echo "Sourced $BASHRC"
 fi
 
 
@@ -82,3 +83,11 @@ fi
 
 echo "Running PlugInstall..."
 vim +PlugInstall +qall
+
+
+# -------------------------------
+# 5. Closing remarks/instructions
+#--------------------------------
+echo -e ""
+echo -e "${GREEN}Bootstraping complete!${RESET}"
+echo -e "${GREEN}Run: ${CYAN}source ~/.bashrc{$GREEN} to apply prompt updates.${RESET}"
