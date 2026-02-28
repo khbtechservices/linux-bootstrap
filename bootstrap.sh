@@ -13,8 +13,8 @@ if ! grep -q "$CUSTOM_MARKER" "$BASHRC"; then
     echo "Writing custom .bashrc lines to ${BASHRC}..."
     echo "" >> "$BASHRC"
     echo "$CUSTOM_MARKER" >> "$BASHRC"
+    cat "$CUSTOM_BASHRC" >> "$BASHRC"
     echo "" >> "$BASHRC"
-    echo "$CUSTOM_BASHRC" >> "$BASHRC"
 
     # Source the file
     source "$BASHRC"
@@ -49,8 +49,8 @@ if ! grep -q "$CUSTOM_MARKER" "$VIMRC"; then
     echo "Writing custom .vimrc lines to ${VIMRC}..."
     echo "" >> "$VIMRC"
     echo "$CUSTOM_MARKER" >> "$VIMRC"
+    cat "$CUSTOM_VIMRC" >> "$VIMRC"
     echo "" >> "$VIMRC"
-    echo "$CUSTOM_VIMRC" >> "$VIMRC"
 fi
 
 
