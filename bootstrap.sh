@@ -1,21 +1,39 @@
 #!/usr/bin/env bash
 set -e #exit on errors
 
+
+# ------------------------------------
+#  Create script variables
+# ------------------------------------
+REPO_RAW_BASE="https://raw.githubusercontent.com/khbtechservices/linux-bootstrap/main"
+CUSTOM_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# --------------------------------------
+# Set up temporary folder for downloads
+# --------------------------------------
+echo "Creating temporary folder for downloads..."
+TMP_DIR=$(mktemp -d)
+echo "Setting up automatic cleanup actions..."
+cleanup() {
+    rm -rf "$TMP_DIR"
+}
+trap cleanup EXIT #call cleanup on exit
 
 # -------------------------------
 # 1. Append custom .bashrc lines
 #--------------------------------
 BASHRC="$HOME/.bashrc"
 CUSTOM_BASHRC="$REPO_DIR/custom_bashrc"
-CUSTOM_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
 
 # Only append if not present
 if ! grep -q "$CUSTOM_MARKER" "$BASHRC"; then
-    echo "Writing custom .bashrc lines to ${BASHRC}..."
+    echo "Downloading custom .bashrc snippet..."
+    curl -fsSL "$REPO_RAW_BASE/$CUSTOM_BASHRC" -o "$TMP_DIR/$CUSTOM_BASHRC"
+    echo "Writing custom .bashrc snippet to ${BASHRC}..."
     echo "" >> "$BASHRC"
     echo "$CUSTOM_MARKER" >> "$BASHRC"
-    cat "$CUSTOM_BASHRC" >> "$BASHRC"
+    cat "$TMP_DIR/$CUSTOM_BASHRC" >> "$BASHRC"
     echo "" >> "$BASHRC"
 
     # Source the file
@@ -48,10 +66,12 @@ if [ ! -f "$VIMRC" ]; then
 fi
 
 if ! grep -q "$CUSTOM_MARKER" "$VIMRC"; then
+    echo "Downloading custom .vimrc snippet..."
+    curl -fsSL "$REPO_RAW_BASE/$CUSTOM_VIMRC" -o "$TMP_DIR/$CUSTOM_VIMRC"
     echo "Writing custom .vimrc lines to ${VIMRC}..."
     echo "" >> "$VIMRC"
     echo "$CUSTOM_MARKER" >> "$VIMRC"
-    cat "$CUSTOM_VIMRC" >> "$VIMRC"
+    cat "$TMP_DIR/$CUSTOM_VIMRC" >> "$VIMRC"
     echo "" >> "$VIMRC"
 fi
 
