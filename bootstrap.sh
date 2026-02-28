@@ -25,11 +25,12 @@ trap cleanup EXIT #call cleanup on exit
 #--------------------------------
 BASHRC="$HOME/.bashrc"
 CUSTOM_BASHRC="$REPO_DIR/custom_bashrc"
+CUSTOM_BASHRC_URL="$REPO_BASE/$CUSTOM_BASHRC"
 
 # Only append if not present
 if ! grep -q "$CUSTOM_MARKER" "$BASHRC"; then
-    echo "Downloading custom .bashrc snippet..."
-    curl -fsSL "$REPO_BASE/$CUSTOM_BASHRC" -o "$TMP_DIR/$CUSTOM_BASHRC"
+    echo "Downloading custom .bashrc snippet from ${CUSTOM_BASHRC_URL}..."
+    curl -fsSL "$CUSTOM_BASHRC_URL" -o "$TMP_DIR/$CUSTOM_BASHRC"
     echo "Writing custom .bashrc snippet to ${BASHRC}..."
     echo "" >> "$BASHRC"
     echo "$CUSTOM_MARKER" >> "$BASHRC"
