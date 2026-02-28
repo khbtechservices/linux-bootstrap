@@ -6,7 +6,6 @@ set -e #exit on errors
 #  Create script variables
 # ------------------------------------
 REPO_BASE="https://raw.githubusercontent.com/khbtechservices/linux-bootstrap/main"
-CUSTOM_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
@@ -30,14 +29,15 @@ trap cleanup EXIT #call cleanup on exit
 #--------------------------------
 BASHRC="$HOME/.bashrc"
 CUSTOM_BASHRC="custom_bashrc"
+CUSTOM_BASHRC_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
 
 # Only append if not present
-if ! grep -q "$CUSTOM_MARKER" "$BASHRC"; then
+if ! grep -q "$CUSTOM_BASHRC_MARKER" "$BASHRC"; then
     echo "Downloading custom .bashrc snippet..."
     curl -fsSL "$REPO_BASE/$CUSTOM_BASHRC" -o "$TMP_DIR/$CUSTOM_BASHRC"
     echo "Writing custom .bashrc snippet to ${BASHRC}..."
     echo "" >> "$BASHRC"
-    echo "$CUSTOM_MARKER" >> "$BASHRC"
+    echo "$CUSTOM_BASHRC_MARKER" >> "$BASHRC"
     cat "$TMP_DIR/$CUSTOM_BASHRC" >> "$BASHRC"
     echo "" >> "$BASHRC"
 fi
@@ -60,18 +60,19 @@ fi
 
 VIMRC="$HOME/.vimrc"
 CUSTOM_VIMRC="custom_vimrc"
+CUSTOM_VIMRC_MARKER="\" KHB LINUX BOOTSTRAP"
 
 if [ ! -f "$VIMRC" ]; then
     echo "Creating initial ${VIMRC}..."
     touch "$VIMRC"
 fi
 
-if ! grep -q "$CUSTOM_MARKER" "$VIMRC"; then
+if ! grep -q "$CUSTOM_VIMRC_MARKER" "$VIMRC"; then
     echo "Downloading custom .vimrc snippet..."
     curl -fsSL "$REPO_BASE/$CUSTOM_VIMRC" -o "$TMP_DIR/$CUSTOM_VIMRC"
     echo "Writing custom .vimrc lines to ${VIMRC}..."
     echo "" >> "$VIMRC"
-    echo "$CUSTOM_MARKER" >> "$VIMRC"
+    echo "$CUSTOM_VIMRC_MARKER" >> "$VIMRC"
     cat "$TMP_DIR/$CUSTOM_VIMRC" >> "$VIMRC"
     echo "" >> "$VIMRC"
 fi
