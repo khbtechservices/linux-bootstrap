@@ -32,7 +32,7 @@ CUSTOM_BASHRC="custom_bashrc"
 CUSTOM_BASHRC_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
 
 # Backup original if not present
-if [! -f "${BASHRC}.orig"]; then
+if [ ! -f "${BASHRC}.orig" ]; then
     echo "Making backup of $BASHRC..."
     cp "$BASHRC" "${BASHRC}.orig"
 fi
