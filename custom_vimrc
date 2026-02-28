@@ -1,0 +1,29 @@
+" Plugins
+call plug#begin()
+Plug 'itchyny/lightline.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+Plug 'scrooloose/nerdtree'
+Plug 'joshdick/onedark.vim'
+call plug#end()
+
+
+
+" General Settings
+syntax on
+set number
+set nocompatible
+set showmatch
+set showcmd
+set tabstop=2 softtabstop=2
+set shiftwidth=2
+set laststatus=2
+set noshowmode
+colorscheme onedark
+
+
+let mapleader=" " 
+let NERDTreeShowHidden=1
+nnoremap <Leader>f :NERDTreeToggle<CR>
+nnoremap <Leader>] :bn<CR>
+nnoremap <Leader>] :bp<CR>

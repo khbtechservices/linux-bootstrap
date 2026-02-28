@@ -1,0 +1,31 @@
+#--------------------------------
+# auto ls after cd
+#--------------------------------
+function cd() {
+        newdir="$*"
+        if [ $# -eq 0 ]; then
+                newdir=$HOME;
+        fi;
+        builtin cd $newdir && /usr/bin/ls --color=auto
+}
+
+#--------------------------------
+# Custom bash prompt
+#--------------------------------
+git_branch() {
+    local branch
+    branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null) || return
+    echo "$branch"
+}
+
+RESET='\[\e[0m\]'
+FG_BLACK='\[\e[30m\]'
+FG_WHITE='\[\e[97m\]'
+BG_WHITE='\[\e[107m\]'
+BG_BLUE='\[\e[44m\]'
+BG_CYAN='\[\e[46m\]'
+PS1=""
+PS1+="${FG_BLACK}${BG_WHITE} \u ${RESET}"
+PS1+="${FG_WHITE}${BG_BLUE} \W ${RESET}"
+PS1+='$(git_branch | sed "s/.*/'"${FG_BLACK}${BG_WHITE}"' & '"${RESET}"'/")'
+PS1+="${FG_BLACK}${BG_CYAN} \A ${RESET} "
