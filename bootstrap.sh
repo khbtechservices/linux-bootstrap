@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 set -e #exit on errors
 
+REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # -------------------------------
 # 1. Append custom .bashrc lines
 #--------------------------------
 BASHRC="$HOME/.bashrc"
-CUSTOM_BASHRC="custom_bashrc"
+CUSTOM_BASHRC="$REPO_DIR/custom_bashrc"
 CUSTOM_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
 
 # Only append if not present
@@ -38,7 +40,7 @@ fi
 #--------------------------------
 
 VIMRC="$HOME/.vimrc"
-CUSTOM_VIMRC="custom_vimrc"
+CUSTOM_VIMRC="$REPO_DIR/custom_vimrc"
 
 if [ ! -f "$VIMRC" ]; then
     echo "Creating initial ${VIMRC}..."
