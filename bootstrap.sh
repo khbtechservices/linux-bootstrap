@@ -12,13 +12,17 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 RESET='\033[0m'
+INFO='\033[0;30;106m'
+SUCCESS='\033[0;30;42m'
+BOLD_DEFAULT='\033[1m'
+RESET='\033[0m'
 
 # --------------------------------------
 # Set up temporary folder for downloads
 # --------------------------------------
-echo "Creating temporary folder for downloads..."
+echo -e " ${INFO} SETUP ${RESET} Creating temporary folder for downloads..."
 TMP_DIR=$(mktemp -d)
-echo "Setting up automatic cleanup actions..."
+echo -e " ${INFO} SETUP ${RESET} Setting up automatic cleanup actions..."
 cleanup() {
     rm -rf "$TMP_DIR"
 }
@@ -27,21 +31,22 @@ trap cleanup EXIT #call cleanup on exit
 # -------------------------------
 # 1. Append custom .bashrc lines
 #--------------------------------
+echo -e " ${INFO} BASH ${RESET} Customize .bashrc"
 BASHRC="$HOME/.bashrc"
 CUSTOM_BASHRC="custom_bashrc"
 CUSTOM_BASHRC_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
 
 # Backup original if not present
 if [ ! -f "${BASHRC}.orig" ]; then
-    echo "Making backup of $BASHRC..."
+    echo -e " ${INFO} BASH ${RESET} Backing up ${BASHRC} to ${BASHRC}.orig..."  
     cp "$BASHRC" "${BASHRC}.orig"
 fi
 
 # Only append if not present
 if ! grep -q "$CUSTOM_BASHRC_MARKER" "$BASHRC"; then
-    echo "Downloading custom .bashrc snippet..."
+    echo -e " ${INFO} BASH ${RESET} Downloading custom snippet..."  
     curl -fsSL "$REPO_BASE/$CUSTOM_BASHRC" -o "$TMP_DIR/$CUSTOM_BASHRC"
-    echo "Writing custom .bashrc snippet to ${BASHRC}..."
+    echo -e " ${INFO} BASH ${RESET} Writing custom snippet to ${BASHRC}..."  
     echo "" >> "$BASHRC"
     echo "$CUSTOM_BASHRC_MARKER" >> "$BASHRC"
     cat "$TMP_DIR/$CUSTOM_BASHRC" >> "$BASHRC"
@@ -52,9 +57,17 @@ fi
 # -------------------------------
 # 2. Install vim-plug
 #--------------------------------
+echo -e " ${INFO} VIM ${RESET} Customize VIM"  
 
+if ! command -v vim >/dev/null 2>&1; then
+    echo -e " ${INFO} VIM ${RESET} Vim not found.  Installing..."  
+    sudo apt update
+    sudo apt install -y vim
+fi
+
+echo -e " ${INFO} VIM ${RESET} Vim installed. Customizing..."  
 if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
-    echo "Istalling vim-plug..."
+    echo -e " ${INFO} VIM ${RESET} Installing vim-plug..."  
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
@@ -69,14 +82,14 @@ CUSTOM_VIMRC="custom_vimrc"
 CUSTOM_VIMRC_MARKER="\" KHB LINUX BOOTSTRAP"
 
 if [ ! -f "$VIMRC" ]; then
-    echo "Creating initial ${VIMRC}..."
+    echo -e " ${INFO} VIM ${RESET} Creating initial ${VIMRC}..."  
     touch "$VIMRC"
 fi
 
 if ! grep -q "$CUSTOM_VIMRC_MARKER" "$VIMRC"; then
-    echo "Downloading custom .vimrc snippet..."
+    echo -e " ${INFO} VIM ${RESET} Downloading custom .vimrc snippet..."  
     curl -fsSL "$REPO_BASE/$CUSTOM_VIMRC" -o "$TMP_DIR/$CUSTOM_VIMRC"
-    echo "Writing custom .vimrc lines to ${VIMRC}..."
+    echo -e " ${INFO} VIM ${RESET} Writing custom .vimrc snippet..."  
     echo "" >> "$VIMRC"
     echo "$CUSTOM_VIMRC_MARKER" >> "$VIMRC"
     cat "$TMP_DIR/$CUSTOM_VIMRC" >> "$VIMRC"
@@ -87,8 +100,7 @@ fi
 # -------------------------------
 # 4. Perform PlugInstall
 #--------------------------------
-
-echo "Running PlugInstall..."
+echo -e " ${INFO} VIM ${RESET} Running PlugInstall..."  
 vim +PlugInstall +qall
 
 
@@ -96,5 +108,5 @@ vim +PlugInstall +qall
 # 5. Closing remarks/instructions
 #--------------------------------
 echo -e ""
-echo -e "${GREEN}Bootstraping complete!${RESET}"
+echo -e "${SUCCESS} DONE ${RESET} Bootstraping complete!"
 echo -e "${GREEN}Run: ${CYAN}source ~/.bashrc ${GREEN}to apply prompt updates.${RESET}"
