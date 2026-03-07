@@ -20,9 +20,9 @@ RESET='\033[0m'
 # --------------------------------------
 # Set up temporary folder for downloads
 # --------------------------------------
-echo -e " ${INFO} SETUP ${RESET} Creating temporary folder for downloads..."
+printf "\n${INFO} SETUP ${RESET} Creating temporary folder for downloads..."
 TMP_DIR=$(mktemp -d)
-echo -e " ${INFO} SETUP ${RESET} Setting up automatic cleanup actions..."
+printf "\n${INFO} SETUP ${RESET} Setting up automatic cleanup actions..."
 cleanup() {
     rm -rf "$TMP_DIR"
 }
@@ -31,22 +31,22 @@ trap cleanup EXIT #call cleanup on exit
 # -------------------------------
 # 1. Append custom .bashrc lines
 #--------------------------------
-echo -e " ${INFO} BASH ${RESET} Customize .bashrc"
+printf "\n ${INFO} BASH ${RESET} Customize .bashrc"
 BASHRC="$HOME/.bashrc"
 CUSTOM_BASHRC="custom_bashrc"
 CUSTOM_BASHRC_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
 
 # Backup original if not present
 if [ ! -f "${BASHRC}.orig" ]; then
-    echo -e " ${INFO} BASH ${RESET} Backing up ${BASHRC} to ${BASHRC}.orig..."  
+    printf "\n${INFO} BASH ${RESET} Backing up ${BASHRC} to ${BASHRC}.orig..."  
     cp "$BASHRC" "${BASHRC}.orig"
 fi
 
 # Only append if not present
 if ! grep -q "$CUSTOM_BASHRC_MARKER" "$BASHRC"; then
-    echo -e " ${INFO} BASH ${RESET} Downloading custom snippet..."  
+    printf "\n${INFO} BASH ${RESET} Downloading custom snippet..."  
     curl -fsSL "$REPO_BASE/$CUSTOM_BASHRC" -o "$TMP_DIR/$CUSTOM_BASHRC"
-    echo -e " ${INFO} BASH ${RESET} Writing custom snippet to ${BASHRC}..."  
+    printf "\n${INFO} BASH ${RESET} Writing custom snippet to ${BASHRC}..."  
     echo "" >> "$BASHRC"
     echo "$CUSTOM_BASHRC_MARKER" >> "$BASHRC"
     cat "$TMP_DIR/$CUSTOM_BASHRC" >> "$BASHRC"
@@ -57,17 +57,17 @@ fi
 # -------------------------------
 # 2. Install vim-plug
 #--------------------------------
-echo -e " ${INFO} VIM ${RESET} Customize VIM"  
+printf "\n ${INFO} VIM ${RESET} Customize VIM"  
 
 if ! command -v vim >/dev/null 2>&1; then
-    echo -e " ${INFO} VIM ${RESET} Vim not found.  Installing..."  
+    printf "\n${INFO} VIM ${RESET} Vim not found.  Installing..."  
     sudo apt update
     sudo apt install -y vim
 fi
 
-echo -e " ${INFO} VIM ${RESET} Vim installed. Customizing..."  
+printf "\n ${INFO} VIM ${RESET} Vim installed. Customizing..."  
 if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
-    echo -e " ${INFO} VIM ${RESET} Installing vim-plug..."  
+    printf "\n${INFO} VIM ${RESET} Installing vim-plug..."  
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
@@ -82,14 +82,14 @@ CUSTOM_VIMRC="custom_vimrc"
 CUSTOM_VIMRC_MARKER="\" KHB LINUX BOOTSTRAP"
 
 if [ ! -f "$VIMRC" ]; then
-    echo -e " ${INFO} VIM ${RESET} Creating initial ${VIMRC}..."  
+    printf "\n${INFO} VIM ${RESET} Creating initial ${VIMRC}..."  
     touch "$VIMRC"
 fi
 
 if ! grep -q "$CUSTOM_VIMRC_MARKER" "$VIMRC"; then
-    echo -e " ${INFO} VIM ${RESET} Downloading custom .vimrc snippet..."  
+    printf "\n${INFO} VIM ${RESET} Downloading custom .vimrc snippet..."  
     curl -fsSL "$REPO_BASE/$CUSTOM_VIMRC" -o "$TMP_DIR/$CUSTOM_VIMRC"
-    echo -e " ${INFO} VIM ${RESET} Writing custom .vimrc snippet..."  
+    printf "\n${INFO} VIM ${RESET} Writing custom .vimrc snippet..."  
     echo "" >> "$VIMRC"
     echo "$CUSTOM_VIMRC_MARKER" >> "$VIMRC"
     cat "$TMP_DIR/$CUSTOM_VIMRC" >> "$VIMRC"
@@ -100,13 +100,13 @@ fi
 # -------------------------------
 # 4. Perform PlugInstall
 #--------------------------------
-echo -e " ${INFO} VIM ${RESET} Running PlugInstall..."  
+printf "\n${INFO} VIM ${RESET} Running PlugInstall..."  
 vim +PlugInstall +qall
 
 
 # -------------------------------
 # 5. Closing remarks/instructions
 #--------------------------------
-echo -e ""
-echo -e "${SUCCESS} DONE ${RESET} Bootstraping complete!"
-echo -e "${GREEN}Run: ${CYAN}source ~/.bashrc ${GREEN}to apply prompt updates.${RESET}"
+printf "\n"
+printf "\n${SUCCESS} DONE ${RESET} Bootstraping complete!"
+printf "\n${GREEN}Run: ${CYAN}source ~/.bashrc ${GREEN}to apply prompt updates.${RESET}"
