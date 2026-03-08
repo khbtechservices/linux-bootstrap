@@ -38,7 +38,7 @@ sudo apt install -y git
 # -------------------------------
 # 1. Append custom .bashrc lines
 #--------------------------------
-printf "\n ${INFO} BASH ${RESET} Customize .bashrc\n"
+printf "\n${INFO} BASH ${RESET} Customize .bashrc\n"
 BASHRC="$HOME/.bashrc"
 CUSTOM_BASHRC="custom_bashrc"
 CUSTOM_BASHRC_MARKER="#== KHB3 LINUX BOOTSTRAP ==#"
@@ -64,7 +64,7 @@ fi
 # -------------------------------
 # 2. Install vim-plug
 #--------------------------------
-printf "\n ${INFO} VIM ${RESET} Customize VIM\n"  
+printf "\n${INFO} VIM ${RESET} Customize VIM\n"  
 
 if ! command -v vim >/dev/null 2>&1; then
     printf "\n${INFO} VIM ${RESET} Vim not found.  Installing...\n"  
@@ -72,7 +72,7 @@ if ! command -v vim >/dev/null 2>&1; then
     sudo apt install -y vim
 fi
 
-printf "\n ${INFO} VIM ${RESET} Vim installed. Customizing...\n"  
+printf "\n${INFO} VIM ${RESET} Vim installed. Customizing...\n"  
 if [ ! -f "$HOME/.vim/autoload/plug.vim" ]; then
     printf "\n${INFO} VIM ${RESET} Installing vim-plug...\n"  
     curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
